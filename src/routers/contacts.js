@@ -7,6 +7,8 @@ import {
   deleteContactController,
   patchContactControllers,
 } from '../controllers/contacts.js';
+import { validateBody } from '../middlewares/validateBody.js';
+import { createContactSchema } from '../validation/contacts';
 
 const router = Router();
 
@@ -14,7 +16,7 @@ router.get('/', getAllContactsController);
 
 router.get('/:contactId', getContactByIdController);
 
-router.post('/', createContactController);
+router.post('/', validateBody(createContactSchema), createContactController);
 
 router.delete('/:contactId', deleteContactController);
 
