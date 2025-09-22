@@ -4,15 +4,16 @@ export const createContactSchema = Joi.object({
   name: Joi.string().min(3).max(20).required(),
   phoneNumber: Joi.number().integer().required(),
   email: Joi.string().email().required(),
-  isFavourite: Joi.boolean().default(false).required,
-  contactType: Joi.string().valid('work', 'home', 'personal').required,
+  isFavourite: Joi.boolean().required(),
+  contactType: Joi.string().valid('work', 'home', 'personal').required(),
 });
 
 export const updateContactSchema = Joi.object({
+  contactId: Joi.string().hex().length(24).required(),
   name: Joi.string().min(3).max(20),
   phoneNumber: Joi.number().integer(),
   email: Joi.string().email(),
-  isFavourite: Joi.boolean().default(false),
+  isFavourite: Joi.boolean(),
   contactType: Joi.string().valid('work', 'home', 'personal'),
 });
 
