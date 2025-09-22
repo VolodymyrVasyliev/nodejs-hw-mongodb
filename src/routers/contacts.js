@@ -8,7 +8,7 @@ import {
   patchContactControllers,
 } from '../controllers/contacts.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import { createContactSchema } from '../validation/contacts';
+import { createContactSchema } from '../validation/contacts.js';
 
 const router = Router();
 

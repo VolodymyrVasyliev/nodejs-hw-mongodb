@@ -13,3 +13,9 @@ export const validateBody = (schema) => async (req, res, next) => {
     next(error);
   }
 };
+
+// export const validId = () => async (req, res, next) => {
+//   if (validateAsync(req.params.id)) {
+//     next();
+//   }
+// };
