@@ -14,14 +14,4 @@ export const validateBody = (schema) => async (req, res, next) => {
   }
 };
 
-export const validateId = (schema) => async (req, res, next) => {
-  try {
-    await schema.validateAsync(req.params, { abortEarly: false });
-    next();
-  } catch (err) {
-    const error = createHttpError(400, 'Invalid ID', {
-      errors: err.details,
-    });
-    next(error);
-  }
-};
+

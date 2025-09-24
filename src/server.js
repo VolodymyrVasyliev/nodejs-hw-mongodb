@@ -5,7 +5,6 @@ import { getEnvVar } from './utils/getEnvVar.js';
 import contactRoutes from './routers/contacts.js';
 import errorHandler from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
-import { ctrlWrapper } from './utils/ctrlWrapper.js';
 
 const PORT = Number(getEnvVar('PORT', '3000'));
 
@@ -25,11 +24,11 @@ export function setupServer() {
 
   app.get('/', (req, res) => {
     res.json({
-      message: `Hello CRUD!`,
+      message: `Hello validation!`,
     });
   });
 
-  app.use('/contacts', ctrlWrapper(contactRoutes));
+  app.use('/contacts', contactRoutes);
 
   app.use(notFoundHandler);
 
