@@ -9,7 +9,6 @@ export const createContactSchema = Joi.object({
 });
 
 export const updateContactSchema = Joi.object({
-  // contactId: Joi.string().hex().length(24).required(),
   name: Joi.string().min(3).max(20),
   phoneNumber: Joi.number().integer(),
   email: Joi.string().email(),
