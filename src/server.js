@@ -2,7 +2,7 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
-import contactRoutes from './routers/contacts.js';
+import routers from './routers/index.js';
 import errorHandler from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 
@@ -28,7 +28,7 @@ export function setupServer() {
     });
   });
 
-  app.use('/contacts', contactRoutes);
+  app.use(routers);
 
   app.use(notFoundHandler);
 
