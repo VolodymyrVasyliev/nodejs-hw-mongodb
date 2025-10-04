@@ -17,7 +17,7 @@ export const registerUser = async (payload) => {
 };
 
 export const loginUser = async (payload) => {
-  const user = await SessionCollection.findOne({ email: payload.email });
+  const user = await UserCollection.findOne({ email: payload.email });
   if (!user) {
     throw createHttpError(401, 'User not found');
   }
