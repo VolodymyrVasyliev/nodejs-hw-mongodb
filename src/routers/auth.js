@@ -4,7 +4,8 @@ import { validateBody } from '../middlewares/validateBody.js';
 import {
   registerUserController,
   loginUserController,
-  refreshUserSessionController
+  refreshUserSessionController,
+  logoutUserController,
 } from '../controllers/auth.js';
 import { registerUserSchema, loginUserSchema } from '../validation/auth.js';
 
@@ -23,5 +24,7 @@ router.post(
 );
 
 router.post('/refresh', ctrlWrapper(refreshUserSessionController));
+
+router.post('/logout', ctrlWrapper(logoutUserController));
 
 export default router;
