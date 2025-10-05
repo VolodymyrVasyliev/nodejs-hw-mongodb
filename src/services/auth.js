@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
-import { UserCollection } from '../db/models/User.js';
+import { UserCollection } from '../db/models/user.js';
 import { SessionCollection } from '../db/models/session.js';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
 import { randomBytes } from 'crypto';
