@@ -36,7 +36,7 @@ export const getContactByIdController = async (req, res) => {
   const { contactId } = req.params;
   const { _id: userId } = req.user;
 
-  const contacts = await getContactById({ id: contactId, userId });
+  const contacts = await getContactById(contactId, userId);
 
   if (contacts === null) {
     throw new createHttpError.NotFound('Contact not found');
@@ -78,11 +78,7 @@ export const patchContactControllers = async (req, res) => {
   const { contactId } = req.params;
   const { _id: userId } = req.user;
 
-  const result = await patchContact(
-    contactId,
-    req.body,
-    userId,
-  );
+  const result = await patchContact(contactId, req.body, userId);
 
   if (result === null) {
     throw new createHttpError.NotFound('Contact not found');

@@ -73,8 +73,8 @@ export const patchContact = async (contactId, payload, userId) => {
     {
       _id: contactId,
       userId,
-      payload,
     },
+    payload,
     {
       new: true,
     },
