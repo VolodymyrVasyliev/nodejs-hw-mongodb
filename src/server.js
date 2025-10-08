@@ -26,7 +26,7 @@ export function setupServer() {
 
   app.get('/', (req, res) => {
     res.json({
-      message: `Hello auth!`,
+      message: `Hello email-and-images!`,
     });
   });
 
