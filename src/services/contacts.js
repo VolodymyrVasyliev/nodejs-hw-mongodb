@@ -1,6 +1,7 @@
 import { ContactsCollection } from '../db/models/contacts.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { SORT_ORDER } from '../constants/index.js';
+import createHttpError from 'http-errors';
 
 export const getAllContacts = async ({
   page = 1,
@@ -56,6 +57,12 @@ export const getContactById = async (contactId, userId) => {
 };
 
 export const createContacts = async (payload) => {
+  const user = await ContactsCollection.findOne({
+    email: payload.email,
+    userId: payload.userId,
+  });
+  if (user) throw createHttpError(409, 'Email in use');
+
   const contact = await ContactsCollection.create(payload);
   return contact;
 };
