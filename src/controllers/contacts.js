@@ -9,6 +9,10 @@ import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
+
 
 export const getAllContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -52,13 +56,55 @@ export const getContactByIdController = async (req, res) => {
 export const createContactController = async (req, res) => {
   const { _id: userId } = req.user;
   const contactData = req.body;
+  const photo = req.file;
+  
 
-  const contact = await createContacts({ ...contactData, userId });
+  let photoUrl;
+  if (photo) {
+    photoUrl = await saveFileToUploadDir(photo);
+  }
+
+  const contact = await createContacts({
+    ...contactData,
+    userId,
+    photo: photoUrl,
+  });
 
   res.status(201).json({
     status: 201,
     message: 'Successfully created contact!',
     data: contact,
+  });
+};
+
+export const patchContactControllers = async (req, res) => {
+  const { contactId } = req.params;
+  const { _id: userId } = req.user;
+  const photo = req.file;
+
+  let photoUrl;
+
+   if (photo) {
+     if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+       photoUrl = await saveFileToCloudinary(photo);
+     } else {
+       photoUrl = await saveFileToUploadDir(photo);
+     }
+   }
+
+  const result = await patchContact(contactId, userId, {
+    ...req.body,
+    photo: photoUrl,
+  });
+
+  if (result === null) {
+    throw new createHttpError.NotFound('Contact not found');
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully patched a contact!',
+    data: result,
   });
 };
 
@@ -72,21 +118,4 @@ export const deleteContactController = async (req, res) => {
     throw new createHttpError.NotFound('Contact not found');
   }
   res.status(204).send();
-};
-
-export const patchContactControllers = async (req, res) => {
-  const { contactId } = req.params;
-  const { _id: userId } = req.user;
-
-  const result = await patchContact(contactId, req.body, userId);
-
-  if (result === null) {
-    throw new createHttpError.NotFound('Contact not found');
-  }
-
-  res.status(200).json({
-    status: 200,
-    message: 'Successfully patched a contact!',
-    data: result,
-  });
 };
