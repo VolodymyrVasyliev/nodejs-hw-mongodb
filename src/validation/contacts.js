@@ -4,7 +4,6 @@ export const createContactSchema = Joi.object({
   name: Joi.string().min(3).max(20).required(),
   phoneNumber: Joi.string()
     .pattern(/^\+380\d{9}$/) // Ukraine phone number format
-    .required()
     .messages({
       'string.pattern.base':
         'The phone number must be in the format +380XXXXXXXXX',

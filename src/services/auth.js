@@ -8,7 +8,7 @@ import {
 } from '../constants/index.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
 import { sendEmail } from '../utils/sendMail.js';
-import { randomBytes } from 'crypto';
+import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
@@ -38,8 +38,8 @@ export const loginUser = async (payload) => {
     throw createHttpError(401, 'Unauthorized');
   }
   await SessionCollection.deleteOne({ userId: user._id });
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
+  const accessToken = crypto.randomBytes(30).toString('base64');
+  const refreshToken = crypto.randomBytes(30).toString('base64');
 
   return await SessionCollection.create({
     userId: user._id,
@@ -51,8 +51,8 @@ export const loginUser = async (payload) => {
 };
 
 const createSession = () => {
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
+  const accessToken = crypto.randomBytes(30).toString('base64');
+  const refreshToken = crypto.randomBytes(30).toString('base64');
   return {
     accessToken,
     refreshToken,
@@ -159,4 +159,29 @@ export const resetPassword = async (payload) => {
     { _id: user._id },
     { password: encryptedPassword },
   );
+};
+
+export const loginOrSignupWithGoogle = async (name, email) => {
+  let user = await UserCollection.findOne({ email });
+
+  if (user) throw createHttpError(409, 'Email in use');
+
+  if (user === null) {
+    const randomPassword = crypto.randomUUID();
+    const password = await bcrypt.hash(randomPassword, 10);
+    user = await UserCollection.create({
+      name,
+      email,
+      password,
+    });
+  }
+
+  const newSession = createSession();
+
+  await SessionCollection.deleteOne({ userId: user._id });
+
+  return await SessionCollection.create({
+    userId: user._id,
+    ...newSession,
+  });
 };

@@ -5,8 +5,11 @@ import {
   logoutUser,
   sendResetToken,
   resetPassword,
+  loginOrSignupWithGoogle,
 } from '../services/auth.js';
 import { ONE_DAY } from '../constants/index.js';
+import { generateAuthUrl, validateCode } from '../utils/googleOAuth2.js';
+import createHttpError from 'http-errors';
 
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
@@ -90,7 +93,53 @@ export const sendResetEmailController = async (req, res) => {
 export const resetPasswordController = async (req, res) => {
   await resetPassword(req.body);
   res.json({
-  status: 200,
-  message: 'Password has been successfully reset.',
-  data: {},
-});};
+    status: 200,
+    message: 'Password has been successfully reset.',
+    data: {},
+  });
+};
+
+export const getGoogleOAuthUrlController = (req, res) => {
+  const url = generateAuthUrl();
+  res.json({
+    status: 200,
+    message: 'Successfully get Google OAuth url!',
+    data: {
+      oauth_url: url,
+    },
+  });
+};
+
+export const loginWithGoogleController = async (req, res) => {
+  if (!req.body?.code) {
+    throw new Error('OAuth code is required');
+  }
+
+  const ticket = await validateCode(req.body.code);
+
+  if (!ticket?.payload?.email) {
+    throw createHttpError(400, 'Email is missing from Google ticket');
+  }
+
+  const session = await loginOrSignupWithGoogle(
+    ticket.payload.name,
+    ticket.payload.email,
+  );
+  res.cookie('refreshToken', session.refreshToken, {
+    httpOnly: true,
+    expires: new Date(Date.now() + ONE_DAY),
+  });
+  res.cookie('sessionId', session._id, {
+    httpOnly: true,
+    expires: new Date(Date.now() + ONE_DAY),
+  });
+
+  res.json({
+    status: 200,
+    message: 'Successfully logged in via Google OAuth!',
+    data: {
+      accessToken: session.accessToken,
+      ticket: ticket.payload,
+    },
+  });
+};
