@@ -28,3 +28,5 @@ export const CLOUDINARY = {
 };
 
 export const PATH_JSON = path.join(process.cwd(), 'google-oauth.json');
+
+export const SWAGGER_PATH = path.join(process.cwd(), 'docs', 'swagger.json');
