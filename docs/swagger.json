@@ -900,8 +900,8 @@
           "isFavourite": {
             "description": "Contact's favourite",
             "type": "boolean",
-            "default": false,
-            "example": false
+            "default": true,
+            "example": true
           },
           "contactType": {
             "description": "Contact's type",
@@ -932,14 +932,6 @@
       },
       "updateContact": {
         "type": "object",
-        "required": [
-          "name",
-          "phoneNumber",
-          "email",
-          "photo",
-          "isFavourite",
-          "contactType"
-        ],
         "properties": {
           "name": {
             "description": "Contact's name",
@@ -969,7 +961,13 @@
           },
           "contactType": {
             "description": "Contact's type",
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "work",
+              "home",
+              "personal"
+            ],
+            "example": "personal"
           }
         }
       }

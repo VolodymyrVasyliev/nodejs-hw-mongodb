@@ -14,7 +14,7 @@ properties:
     type: string
     example: 65e4decdd286b30065d54af9
   name:
-    description: "Contact's name"
+    description: Contact's name
     type: string
     example: 'John Doe'
   phoneNumber:
@@ -32,8 +32,8 @@ properties:
   isFavourite:
     description: "Contact's favourite"
     type: boolean
-    default: false
-    example: false
+    default: true
+    example: true
   contactType:
     description: "Contact's type"
     type: string
