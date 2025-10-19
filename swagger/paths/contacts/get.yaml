@@ -2,7 +2,7 @@ tags:
   - Contacts
 summary: Get a list of all contacts.
 operationId: getAllContacts
-description: 'Get list of contacts with this endpoint'
+description: 'Get list of all contacts'
 security:
   - bearerAuth: []
 parameters:

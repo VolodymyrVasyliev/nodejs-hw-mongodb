@@ -32,7 +32,7 @@
         ],
         "summary": "Get a list of all contacts.",
         "operationId": "getAllContacts",
-        "description": "Get list of contacts with this endpoint",
+        "description": "Get list of all contacts",
         "security": [
           {
             "bearerAuth": []
@@ -207,24 +207,23 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "example": "John Doe",
-                    "description": "example: John Doe"
+                    "description": "Contact name",
+                    "example": "John Doe"
                   },
                   "phoneNumber": {
                     "type": "string",
-                    "example": "+380123456789",
-                    "description": "example: 380123456789"
+                    "description": "Contact phone ",
+                    "example": "+380123456789"
                   },
                   "email": {
                     "type": "string",
-                    "example": "john.doe@example.com",
-                    "description": "example: john.doe@example.com"
+                    "description": "Contact email",
+                    "example": "john.doe@example.com"
                   },
                   "photo": {
                     "type": "string",
                     "format": "binary",
-                    "description": "Link to contact's photo",
-                    "example": "https://res.cloudinary.com/dftv1xceq/image/upload/v1760333422/cem5ftded3ln7pibcph8.jpg"
+                    "description": "Link to contact photo"
                   },
                   "contactType": {
                     "type": "string",
@@ -233,17 +232,17 @@
                       "home",
                       "personal"
                     ],
-                    "example": "work",
-                    "description": "example: personal"
+                    "description": "Contact type",
+                    "example": "personal"
                   },
                   "isFavourite": {
                     "type": "boolean",
-                    "example": false,
-                    "description": "example: false"
+                    "example": false
                   },
                   "userId": {
                     "type": "string",
-                    "example": "68ea05a9263524861c67f989"
+                    "description": "Contact user ID",
+                    "example": "68e68f159a4a2db5e1b97459545"
                   }
                 }
               }
@@ -283,6 +282,9 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -297,9 +299,9 @@
         "tags": [
           "Contacts"
         ],
-        "summary": "Get contact by ID",
+        "summary": "Get contact by id",
         "operationId": "getContactById",
-        "description": "Get contact by ID",
+        "description": "Get contact by id",
         "security": [
           {
             "bearerAuth": []
@@ -348,6 +350,127 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Updating contact id",
+        "operationId": "patchContac",
+        "description": "Update contact by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "68ea05a9263524861c67f989"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/updateContact"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update contact by ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully patched a contact!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/contact"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Delete contact id",
+        "operationId": "deleteContactById",
+        "description": "Delete contact by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "68ea05a9263524861c67f989"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Delete contact by id"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -418,12 +541,13 @@
               "work",
               "home",
               "personal"
-            ]
+            ],
+            "example": "personal"
           },
           "userId": {
             "description": "Contact's parent id",
             "type": "string",
-            "example": "68ec8e660bf6c2ff1dd99c74"
+            "example": "68f159a4a2db5e1b97459545"
           },
           "createdAt": {
             "type": "string",
@@ -434,6 +558,41 @@
             "type": "string",
             "format": "date-time",
             "example": "2025-10-13T05:30:22.493+00:00"
+          }
+        }
+      },
+      "updateContact": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Contact's name",
+            "type": "string",
+            "example": "John Doe"
+          },
+          "phoneNumber": {
+            "description": "Contact's phone number",
+            "type": "string",
+            "example": "+380123456789"
+          },
+          "email": {
+            "description": "Contact's email",
+            "type": "string",
+            "example": "john.doe@example.com"
+          },
+          "photo": {
+            "description": "Optional contact photo file",
+            "type": "string",
+            "format": "binary"
+          },
+          "isFavourite": {
+            "description": "Contact's favourite",
+            "type": "boolean",
+            "default": true,
+            "example": true
+          },
+          "contactType": {
+            "description": "Contact's type",
+            "type": "string"
           }
         }
       }
@@ -465,6 +624,43 @@
                     "message": {
                       "type": "string",
                       "example": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "UnauthorizedError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Access token expired"
                     }
                   }
                 }

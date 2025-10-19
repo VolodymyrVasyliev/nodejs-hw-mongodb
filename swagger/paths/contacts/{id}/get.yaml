@@ -1,8 +1,8 @@
 tags:
   - Contacts
-summary: Get contact by ID
+summary: Get contact by id
 operationId: getContactById
-description: Get contact by ID
+description: Get contact by id
 security:
   - bearerAuth: []
 parameters:
@@ -35,6 +35,8 @@ responses:
               $ref: ../../../components/schemas/contact.yaml
   '400':
     $ref: '../../../components/responses/400.yaml'
+  '401':
+    $ref: '../../../components/responses/401.yaml'
   '404':
     $ref: '../../../components/responses/404.yaml'
   '500':
