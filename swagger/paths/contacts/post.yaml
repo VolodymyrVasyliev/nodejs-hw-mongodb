@@ -20,33 +20,32 @@ requestBody:
         properties:
           name:
             type: string
+            description: 'Contact name'
             example: 'John Doe'
-            description: 'example: John Doe'
           phoneNumber:
             type: string
+            description: 'Contact phone '
             example: '+380123456789'
-            description: 'example: 380123456789'
           email:
             type: string
+            description: 'Contact email'
             example: 'john.doe@example.com'
-            description: 'example: john.doe@example.com'
           photo:
             type: string
             format: binary
-            description: Link to contact's photo
-            example: https://res.cloudinary.com/dftv1xceq/image/upload/v1760333422/cem5ftded3ln7pibcph8.jpg
+            description: Link to contact photo
           contactType:
             type: string
             enum: [work, home, personal]
-            example: work
-            description: 'example: personal'
+            description: 'Contact type'
+            example: personal
           isFavourite:
             type: boolean
             example: false
-            description: 'example: false'
           userId:
             type: string
-            example: 68ea05a9263524861c67f989
+            description: 'Contact user ID'
+            example: 68e68f159a4a2db5e1b97459545
 responses:
   '201':
     description: Creates a contact
@@ -70,6 +69,8 @@ responses:
               $ref: ../../components/schemas/contact.yaml
   '400':
     $ref: '../../components/responses/400.yaml'  
+  '401':
+    $ref: '../../components/responses/401.yaml'
   '404':
     $ref: '../../components/responses/404.yaml'
   '500':

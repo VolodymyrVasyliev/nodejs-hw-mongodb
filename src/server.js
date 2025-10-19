@@ -46,7 +46,7 @@ export function setupServer() {
       throw error;
     }
     console.log(
-      `Server is running on port ${PORT}, doc=> http://localhost:3000/api-docs`,
+      `Server is running on port ${PORT}, docs=> http://localhost:3000/api-docs`,
     );
   });
 }
