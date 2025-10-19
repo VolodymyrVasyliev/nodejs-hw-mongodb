@@ -240,7 +240,9 @@
                   },
                   "isFavourite": {
                     "type": "boolean",
-                    "example": false
+                    "description": "Contact's favourite",
+                    "default": true,
+                    "example": true
                   }
                 }
               }
