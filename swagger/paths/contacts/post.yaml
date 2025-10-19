@@ -42,10 +42,6 @@ requestBody:
           isFavourite:
             type: boolean
             example: false
-          userId:
-            type: string
-            description: 'Contact user ID'
-            example: 68e68f159a4a2db5e1b97459545
 responses:
   '201':
     description: Creates a contact
