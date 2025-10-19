@@ -1,4 +1,11 @@
 type: object
+required:
+  - name
+  - phoneNumber
+  - email
+  - photo
+  - isFavourite
+  - contactType
 properties:
   name:
     description: Contact's name
@@ -13,7 +20,7 @@ properties:
     type: string
     example: john.doe@example.com
   photo:
-    description: Optional contact photo file
+    description: Link to contact's photo
     type: string
     format: binary
   isFavourite:
