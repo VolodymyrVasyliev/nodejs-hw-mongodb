@@ -41,7 +41,9 @@ requestBody:
             example: personal
           isFavourite:
             type: boolean
-            example: false
+            description: "Contact's favourite"
+            default: true
+            example: true
 responses:
   '201':
     description: Creates a contact

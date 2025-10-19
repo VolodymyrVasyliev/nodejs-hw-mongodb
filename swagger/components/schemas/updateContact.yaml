@@ -1,11 +1,4 @@
 type: object
-required:
-  - name
-  - phoneNumber
-  - email
-  - photo
-  - isFavourite
-  - contactType
 properties:
   name:
     description: Contact's name
@@ -31,3 +24,5 @@ properties:
   contactType:
     description: Contact's type
     type: string
+    enum: ['work', 'home', 'personal']
+    example: personal
