@@ -4,6 +4,23 @@ summary: Register a new user
 operationId: registerUser
 description: Create a new user account
 security: []
+parameters:
+- in: query
+  name: name
+  schema: 
+    type: string
+    example: John Doe
+- in: query
+  name: email
+  schema: 
+    type: string
+    example: john_doe@example.com
+- in: query
+  name: password
+  schema: 
+    type: string
+    example: '123456789'
+
 requestBody:
   required: true
   content:
@@ -45,7 +62,7 @@ responses:
             data:
               $ref: ../../components/schemas/contact.yaml
   '400':
-    $ref: ../../components/responses/400.yaml              
+    $ref: ../../components/responses/400.yaml
   '409':
     $ref: ../../components/responses/409.yaml
   '404':

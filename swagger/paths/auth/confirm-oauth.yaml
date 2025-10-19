@@ -1,0 +1,59 @@
+tags:
+  - Auth
+summary: Log in or register with Google
+operationId: loginOrSignupWithGoogle
+description: Log in or register with Google OAuth2.0
+security: []
+parameters:
+  - in: query
+    name: code
+    schema:
+      type: string
+      description: 'Google authorization code'
+      example: 4/0AVGzR1CI2XyYH5ou112HZozVMWgN3N57kTPULtfsub25ENn3m2sZ_0Wwkny5_MVtARTGAg      
+responses:
+  '200':
+    description: Successfully logged in via Google OAuth!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully logged in via Google OAuth!
+            data:
+              type: object
+              example:
+                accessToken: 'LjbPjBkHx2yL0Vpi001/DBX1uJIcSvyEqMauK/Xj'
+                ticket:
+                  type: object
+                  example:
+                    iss: 'https://accounts.google.com'
+                    azp: '691168304423-ha6mdo3sr4d2ptc7nqs4lg0dm2gto4m.apps.googleusercontent.com'
+                    aud: '691168304423-ha6mdo3sr4d2tjc7nqs4lg0dm2gto4m.apps.googleusercontent.com'
+                    sub: '115051157945706959736'
+                    email: 'vasyliev.official@gmail.com'
+                    email_verified: true
+                    at_hash: 'j_6kzyD7n1JCK-me3h7wQ'
+                    name: 'Volodymyr Vasyliev'
+                    picture: 'https://lh3.googleusercontent.com/a/ACg8ocKSaRawZKaBRNGYMLEjtPHDfGPoR3uBGrFtMek_LoRpQjp_cbvP=s96-c'
+                    given_name: 'Volodymyr'
+                    family_name: 'Vasyliev'
+                    iat: '1760888584'
+                    exp: '1760892184'
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '404':
+    $ref: ../../components/responses/404.yaml
+  '409':
+    $ref: ../../components/responses/409.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml
